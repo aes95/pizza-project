@@ -1,0 +1,142 @@
+{% extends "orders/base.html" %}
+{% load orders_extras %}
+
+{% block title %} Menu {% endblock %}
+
+
+{% block body %}
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Pizza</th>
+            <th scope="col">Type</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr id="pizza-row" data-toggle="modal" data-target="#pizzaModal">
+            <td>Regular</td>
+            <td>{{pizza_prices.0}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Pasta</th>
+            <th scope="col">Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for pasta in data.pasta %}
+        <tr data-id="{{pasta.id}}" class="food">
+            <td>{{pasta.name}}</td>
+            <td>{{pasta.price}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Salad</th>
+            <th scope="col">Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for salad in data.salad %}
+        <tr data-id="{{salad.id}}" class="food">
+            <td>{{salad.name}}</td>
+            <td>{{salad.price}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Dinner Platter</th>
+            <th scope="col">Small</th>
+            <th scope="col">Large</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for key in data.dinner %}
+        <tr data-id="{{dinner}}" data-name={{dinner}} >
+            <td>{{key}}</td>
+            <td data-id={% idGetFirst data.dinner key %} class="food" >{% dictGetFirst data.dinner key %}</td>
+            <td data-id={% idGetSecond data.dinner key %} class="food">{% dictGetSecond data.dinner key %}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Subs</th>
+            <th scope="col">Small</th>
+            <th scope="col">Large</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for sub in data.sub %}
+        <tr data-id="{{sub}}" data-name={{sub}} >
+            <td>{{sub}}</td>
+            <td data-id={% idGetFirst data.sub sub %} class="food" >{% dictGetFirst data.sub sub %}</td>
+            <td data-id={% idGetSecond data.sub sub %} class="food">{% dictGetSecond data.sub sub %}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Pizza Modal -->
+<div class="modal fade" id="pizzaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form class="" id="pizza-order" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="type" value="pizza">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Order Pizza</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body container-fluid">
+                    <div class="row">
+                        <p>Type:</p>
+                        <input type="radio" name="sub_type" value="regular" id="regular" checked>
+                        <label for="regular">Regular</label>
+                        <input type="radio" name="sub_type" value="sicilian" id="sicilian">
+                        <label for="sicilian">Sicilian</label>
+                    </div>
+                    <div class="row">
+                        <p>Size:</p>
+                        <input type="radio" name="size" value="small" id="size" checked>
+                        <label for="small">Small</label>
+                        <input type="radio" name="size" value="large" id="size">
+                        <label for="large">Large</label>
+                    </div>
+                    <p>Select Toppings:</p>
+                    {% for topping in toppings %}
+                    <div class="row">
+                        <input type="checkbox" id="{{topping}}" name="toppings" value="{{topping}}">
+                        <label for="{{topping}}">{{topping}}</label>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="modal-footer">
+                    <div class=""> Price: <span class="modal-price">{{pizza_prices.0}}</span> </div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="addToCart()">Add to Cart</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+{% endblock %}

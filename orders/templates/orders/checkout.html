@@ -1,0 +1,37 @@
+{% extends "orders/base.html" %}
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'orders/checkout.css' %}" />
+
+{% block title %} Checkout {% endblock %}
+
+
+{% block body %}
+
+
+<div class="outer-box">
+  <h1>Responsive Cart</h1>
+  <table class="table table-xs">
+    <tr>
+      <th>Description</th>
+      <th class="text-right">Price</th>
+    </tr>
+    {% for item in cart %}
+    <tr class="item-row">
+      <td>
+        <p> <strong>{{item.type}}</strong></p>
+        <p>{{item}}</p>
+      </td>
+      <td class="text-right" title="Price">{{item.price}}</td>
+    </tr>
+    {% endfor %}
+    <tr class="total-row info">
+      <td class="text-right" colspan="4">Total</td>
+      <td class="text-right">{{subtotal}}</td>
+    </tr>
+  </table>
+</div>
+<button type="button" class="btn btn-primary btn-lg btn-block checkout-btn">Confirm Checkout</button>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+<script type="text/javascript" src="{% static 'orders/checkout.js' %}"> </script>
+{% endblock %}
