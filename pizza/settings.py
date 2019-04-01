@@ -22,9 +22,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://web50-pizza-project.herokuapp.com']
 
 
 # Application definition
@@ -158,7 +158,7 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = ''
 
-STATICFILES_DIRS = ( os.path.join('static'), )
+#STATICFILES_DIRS = ( os.path.join('static'), )
 
 # Configure Django App for Heroku.
 
